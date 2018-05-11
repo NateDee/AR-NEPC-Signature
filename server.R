@@ -64,7 +64,8 @@ server <- function(input, output) {
 		palette = colorRampPalette(brewer.pal(9, "YlGnBu"))(n=299)
 		# Run heatmap
 		heatmap.2(dbgap.mat, trace="none", dendrogram="none", col = palette, Colv=FALSE, Rowv=FALSE, scale="none", ColSideColors = columns_colors, RowSideColors = row_group, breaks = seq(0,8,length=300), labCol=FALSE)
-		text(x=rep(0.1352252,2), y=c(0.06615201, 0.51807700), srt=90, xpd=TRUE, adj=0, labels=c("NEPC Signature", "AR Signature"))
+		text(x=rep(0.1352252,2), y=c(0.06615201, 0.51807700), srt=90, xpd=TRUE, adj=0, labels=c("NEPC Signature", "AR Signature"), font=2)
+		legend("topright", title="Column Labels", legend=c("Benign", "Local PCa", "CRPC", "NEPC"), fill=c("green", "orange", "red", "darkred"), text.font=2, xpd=TRUE, inset=c(0,-0.2))
 	}
 
 	output$user_heatmap <- renderPlot({
@@ -96,7 +97,7 @@ server <- function(input, output) {
 		# Convert to log2(FPKM + 1)
 		user.mat = log2(user.mat + 1)
 		heatmap.2(user.mat, trace="none", dendrogram="none", col = palette, Colv=FALSE, Rowv=FALSE, scale="none", ColSideColors = columns_colors, RowSideColors = row_group, breaks = seq(0,8,length=300), labCol=FALSE)
-		text(x=rep(0.1352252,2), y=c(0.06615201, 0.51807700), srt=90, xpd=TRUE, adj=0, labels=c("NEPC Signature", "AR Signature"))
+		text(x=rep(0.1352252,2), y=c(0.06615201, 0.51807700), srt=90, xpd=TRUE, adj=0, labels=c("NEPC Signature", "AR Signature"), font=2)
 	}
 	
 	output$dbgap_scores <- renderPlot({
@@ -155,7 +156,18 @@ server <- function(input, output) {
 		},
 		content <- function(file) {
 			png(file, width = 8, height = 10, unit="in", res=300)
-			drawDbgapHeat()
+			# drawDbgapHeat()
+				# dbgap data = dbgap_fpkm
+			# dbgap_scores = dbgap_scores
+			columns_colors = as.character(dbgap_scores[4,2:261])
+			dbgap.mat = as.matrix(dbgap_fpkm[,4:263])
+			row.names(dbgap.mat) = dbgap_fpkm$Gene_name
+			row_group = c(rep("red", 30), rep("blue", 68)) # 30 AR genes, 68 NEPC genes
+			palette = colorRampPalette(brewer.pal(9, "YlGnBu"))(n=299)
+			# Run heatmap
+			heatmap.2(dbgap.mat, trace="none", dendrogram="none", col = palette, Colv=FALSE, Rowv=FALSE, scale="none", ColSideColors = columns_colors, RowSideColors = row_group, breaks = seq(0,8,length=300), labCol=FALSE)
+			text(x=rep(0.1352252,2), y=c(0.06615201, 0.51807700), srt=90, xpd=TRUE, adj=0, labels=c("NEPC Signature", "AR Signature"), font=2)
+			legend("topright", title="Column Labels", legend=c("Benign", "Local PCa", "CRPC", "NEPC"), fill=c("green", "orange", "red", "darkred"), text.font=2, xpd=TRUE, inset=c(0,-0.05))
 			dev.off()
 		}
 	)
