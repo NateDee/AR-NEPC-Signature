@@ -65,7 +65,7 @@ server <- function(input, output) {
 		# Run heatmap
 		heatmap.2(dbgap.mat, trace="none", dendrogram="none", col = palette, Colv=FALSE, Rowv=FALSE, scale="none", ColSideColors = columns_colors, RowSideColors = row_group, breaks = seq(0,8,length=300), labCol=FALSE)
 		text(x=rep(0.1352252,2), y=c(0.06615201, 0.51807700), srt=90, xpd=TRUE, adj=0, labels=c("NEPC Signature", "AR Signature"), font=2)
-		legend("topright", title="Column Labels", legend=c("Benign", "Local PCa", "CRPC", "NEPC"), fill=c("green", "orange", "red", "darkred"), text.font=2, xpd=TRUE, inset=c(0,-0.2))
+		legend("topright", title="Tissue Type", legend=c("Benign", "Local PCa", "CRPC", "NEPC"), fill=c("green", "orange", "red", "darkred"), text.font=2, xpd=TRUE, inset=c(0,-0.2))
 	}
 
 	output$user_heatmap <- renderPlot({
@@ -167,7 +167,7 @@ server <- function(input, output) {
 			# Run heatmap
 			heatmap.2(dbgap.mat, trace="none", dendrogram="none", col = palette, Colv=FALSE, Rowv=FALSE, scale="none", ColSideColors = columns_colors, RowSideColors = row_group, breaks = seq(0,8,length=300), labCol=FALSE)
 			text(x=rep(0.1352252,2), y=c(0.06615201, 0.51807700), srt=90, xpd=TRUE, adj=0, labels=c("NEPC Signature", "AR Signature"), font=2)
-			legend("topright", title="Column Labels", legend=c("Benign", "Local PCa", "CRPC", "NEPC"), fill=c("green", "orange", "red", "darkred"), text.font=2, xpd=TRUE, inset=c(0,-0.05))
+			legend("topright", title="Tissue Type", legend=c("Benign", "Local PCa", "CRPC", "NEPC"), fill=c("green", "orange", "red", "darkred"), text.font=2, xpd=TRUE, inset=c(0,-0.05))
 			dev.off()
 		}
 	)
